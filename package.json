@@ -1,9 +1,9 @@
 {
 	"name": "svelte-sortlist",
 	"private": false,
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"type": "module",
-	"main": "src/lib/Sortable.svelte",
+	"main": "src/lib/main.ts",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
