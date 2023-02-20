@@ -9,7 +9,8 @@
 </script>
 
 <main>
-	<Sortable bind:list let:item on:reorder={(e) => console.log(e.detail.source)}>
-		<div>{item.value}</div>
+	<Sortable bind:list let:item let:isOver>
+		{isOver ? 'over' : 'not over'}
+		<div style="background-color: blue;">{item.value}</div>
 	</Sortable>
 </main>

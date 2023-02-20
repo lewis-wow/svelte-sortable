@@ -15,10 +15,11 @@
 
 	export let list: ListItem[]
 	export let element = 'div'
-	export let active = true
-
+	export let disabled = false
+	export let animation = true
 	let className = ''
 	export { className as class }
+	export let style = ''
 
 	const dispatch = createEventDispatcher()
 
@@ -31,10 +32,10 @@
 	}
 
 	const over = (target: Source) => isOver !== target.id && (isOver = target.id)
-	const leave = () => isOver === source?.id && (isOver = null)
+	const leave = () => isOver = null
 
 	const reorder = (source: Source | null, target: Source | null) => {
-		if (!active || !source || !target) return
+		if (disabled || !source || !target) return
 		if (source.id === target.id) return
 
 		const { order: sourceIndex } = source
@@ -52,22 +53,17 @@
 {#each list as item, order (item.id)}
 	<svelte:element
 		this={element}
-		draggable={active}
+		draggable={!disabled}
+		class={className}
+		{style}
+		{...$$restProps}
 		on:dragstart={(e) => (source = { order, id: item.id }) && start(e, source.id)}
 		on:dragover|preventDefault={() => over({ order, id: item.id })}
 		on:dragleave={leave}
 		on:dragenter|preventDefault={() => null}
 		on:drop|preventDefault={() => reorder(source, { order, id: item.id })}
-		animate:flip={{ duration: source !== null ? 300 : 0 }}
-		class:over={item.id === isOver}
-		class={className}
+		animate:flip={{ duration: source !== null && animation === true ? 300 : 0 }}
 	>
-		<slot {item} {order} />
+		<slot {item} index={order} isOver={item.id === isOver} />
 	</svelte:element>
 {/each}
-
-<style>
-	.over {
-		border-color: rgba(48, 12, 200, 0.2);
-	}
-</style>
