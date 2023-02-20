@@ -1,5 +1,5 @@
 <script>
-	import Sortable from './lib/Sortable.svelte';
+	import Sortable from './lib/Sortlist.svelte';
 
 	let list = [
 		{ id: 1, value: 'A' },
